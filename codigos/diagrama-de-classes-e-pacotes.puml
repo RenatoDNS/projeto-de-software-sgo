@@ -1,0 +1,82 @@
+@startuml diagrama-de-classes-e-pacotes
+
+skinparam packageStyle rectangle
+skinparam classBackgroundColor #D6EAF8
+skinparam classBorderColor #2980B9
+skinparam classArrowColor #2C3E50
+skinparam packageBackgroundColor #F4F6F7
+skinparam packageBorderColor #2C3E50
+
+package "Módulo de Competições" {
+
+    class Competicao {
+        +id: int
+        +modalidade: string
+        +data: Date
+        +horario: string
+        +cadastrarCompeticao(): void
+        +listarAtletas(): List
+    }
+
+    class Local {
+        +id: int
+        +nome: string
+        +capacidade: int
+        +endereco: string
+        +verificarDisponibilidade(data: Date, horario: string): bool
+    }
+
+    Competicao --> Local : "alocado em"
+}
+
+package "Módulo de Inscrições" {
+
+    class Atleta {
+        +id: int
+        +nome: string
+        +inscreverEmCompeticao(Competicao): void
+        +consultarResultados(): List
+    }
+
+    class Pais {
+        +id: int
+        +nome: string
+        +codigo: string
+        +gerarRelatorioMedalhas(): string
+    }
+
+    class Inscricao {
+        +id: int
+        +dataInscricao: Date
+        +validarRepresentacao(): bool
+    }
+
+    Atleta "1" --> "1" Pais       : "representa"
+    Atleta "1" --> "0..*" Inscricao : "realiza"
+}
+
+package "Módulo de Resultados" {
+
+    class Resultado {
+        +id: int
+        +primeiroLugar: string
+        +segundoLugar: string
+        +terceiroLugar: string
+        +registrarResultado(): void
+    }
+
+    class Medalha {
+        +tipo: string
+        +registrarMedalha(Pais): void
+    }
+
+    Resultado "1" --> "1..*" Medalha : "gera"
+}
+
+' Relacionamentos entre pacotes
+Inscricao   "0..*" --> "1" Competicao : "vinculada a"
+Resultado   "1"    --> "1" Competicao : "referente a"
+Resultado   "1"    --> "1..*" Atleta  : "classifica"
+Medalha     "0..*" --> "1" Pais       : "conquista"
+
+@enduml

@@ -1,6 +1,6 @@
 # Sistema de Gestão das Olimpíadas (SGO)
 
-> Trabalho 1 — Projeto de Software | PUC Minas | Prof. João Paulo Carneiro Aramuni
+> Trabalho de Projeto de Software | PUC Minas | Prof. João Paulo Carneiro Aramuni
 
 ---
 
@@ -44,15 +44,23 @@ O **SGO** é um sistema de gestão desenvolvido para coordenar os diferentes asp
 
 ---
 
+### Diagrama de Classes e Pacotes
+
+<img width="800px" src="https://github.com/RenatoDNS/projeto-de-software-sgo/blob/main/imagens/diagrama-de-classes-e-pacotes.png"/>
+
+---
+
 ## Estrutura do Repositório
 
 ```
 📦 projeto-de-software-sgo
 ├── 📄 README.md
 ├── 📁 imagens/
-│   └── diagrama-de-caso-de-uso.png
+│   ├── diagrama-de-caso-de-uso.png
+│   └── diagrama-de-classes-e-pacotes.png
 └── 📁 codigos/
-    └── diagrama-de-caso-de-uso.puml
+    ├── diagrama-de-caso-de-uso.puml
+    └── diagrama-de-classes-e-pacotes.puml
 ```
 
 ---
@@ -60,6 +68,12 @@ O **SGO** é um sistema de gestão desenvolvido para coordenar os diferentes asp
 ## Ferramentas Utilizadas
 
 - [PlantUML](https://plantuml.com/) — geração dos diagramas UML
+
+---
+
+## Referências
+
+- [PlantUML API — Prof. João Paulo Aramuni](https://github.com/joaopauloaramuni/projeto-de-software/tree/main/PROJETOS/Python/Projeto%20PlantUML%20API)
 
 ---
 
