@@ -1,0 +1,77 @@
+@startuml diagrama-de-implantação
+
+skinparam nodeBackgroundColor #D6EAF8
+skinparam nodeBorderColor #2980B9
+skinparam componentBackgroundColor #FDFEFE
+skinparam componentBorderColor #2C3E50
+skinparam databaseBackgroundColor #D5F5E3
+skinparam databaseBorderColor #1E8449
+skinparam cloudBackgroundColor #EBF5FB
+skinparam cloudBorderColor #5DADE2
+skinparam arrowColor #2C3E50
+
+cloud "Internet" {
+    node "Dispositivo do Administrador" {
+        [Navegador Web]
+    }
+    node "Dispositivo do Atleta" {
+        [App Mobile]
+    }
+}
+
+node "Infraestrutura SGO" {
+
+    node "Camada de Rede" {
+        [Firewall]
+        [Balanceador de Carga]
+        [Firewall] --> [Balanceador de Carga] : Filtra Tráfego
+    }
+
+    node "Servidor de Aplicação" {
+        [Interface Web]
+        [Módulo de Competições]
+        [Módulo de Inscrições]
+        [Módulo de Alocação]
+        [Módulo de Resultados]
+        [Módulo de Relatórios]
+        [Interface Web] --> [Módulo de Competições] : Requisição
+        [Interface Web] --> [Módulo de Inscrições]  : Requisição
+        [Interface Web] --> [Módulo de Alocação]    : Requisição
+        [Interface Web] --> [Módulo de Resultados]  : Requisição
+        [Interface Web] --> [Módulo de Relatórios]  : Requisição
+    }
+
+    node "Servidor de Cache" {
+        [Cache de Relatórios]
+    }
+
+    node "Servidor de Banco de Dados Primário" {
+        database "BD SGO"
+    }
+
+    node "Servidor de Banco de Dados Secundário" {
+        database "BD SGO - Réplica"
+    }
+}
+
+' Dispositivos → Infraestrutura
+[Navegador Web] --> [Firewall]    : HTTPS
+[App Mobile]    --> [Firewall]    : HTTPS
+
+' Rede → Aplicação
+[Balanceador de Carga] --> [Interface Web] : Distribui Requisições
+
+' Aplicação → Cache
+[Módulo de Relatórios] --> [Cache de Relatórios] : Armazenar/Recuperar
+
+' Aplicação → Banco de Dados
+[Módulo de Competições] --> [BD SGO] : SQL
+[Módulo de Inscrições]  --> [BD SGO] : SQL
+[Módulo de Alocação]    --> [BD SGO] : SQL
+[Módulo de Resultados]  --> [BD SGO] : SQL
+[Módulo de Relatórios]  --> [BD SGO] : SQL
+
+' Replicação
+[BD SGO] --> [BD SGO - Réplica] : Replicação
+
+@enduml
