@@ -1,0 +1,49 @@
+@startuml diagrama-de-caso-de-uso
+
+skinparam packageStyle rectangle
+skinparam actorStyle awesome
+skinparam usecase {
+  BackgroundColor #FEFEFE
+  BorderColor #2C3E50
+  ArrowColor #2C3E50
+  ActorBorderColor #2C3E50
+  ActorBackgroundColor #D6EAF8
+}
+
+left to right direction
+
+actor "Administrador" as Admin
+actor "Atleta"        as Atleta
+
+rectangle "Sistema de Gestão das Olimpíadas (SGO)" {
+
+  usecase "UC01 - Cadastrar Competição"          as UC01
+  usecase "UC02 - Inscrever Atleta"              as UC02
+  usecase "UC03 - Alocar Local"                  as UC03
+  usecase "UC04 - Registrar Resultados"          as UC04
+  usecase "UC05 - Gerar Relatório de Medalhas"   as UC05
+  usecase "UC06 - Verificar Conflito de Horário" as UC06
+  usecase "UC07 - Validar Representação por País" as UC07
+  usecase "UC08 - Consultar Classificação"       as UC08
+
+}
+
+' Relacionamentos do Administrador
+Admin  --> UC01
+Admin  --> UC02
+Admin  --> UC03
+Admin  --> UC04
+Admin  --> UC05
+
+' Relacionamentos do Atleta
+Atleta --> UC02
+Atleta --> UC08
+
+' Include: comportamentos obrigatórios
+UC03 ..> UC06 : <<include>>
+UC02 ..> UC07 : <<include>>
+
+' Extend: comportamento opcional disparado após resultado
+UC04 <.. UC08 : <<extend>>
+
+@enduml
