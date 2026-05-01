@@ -1,0 +1,105 @@
+@startuml diagrama-de-componentes
+
+skinparam componentStyle rectangle
+skinparam packageStyle rectangle
+skinparam component {
+  BackgroundColor #D6EAF8
+  BorderColor #2980B9
+}
+skinparam interface {
+  BackgroundColor #FDFEFE
+  BorderColor #2C3E50
+}
+skinparam packageBackgroundColor #F4F6F7
+skinparam packageBorderColor #2C3E50
+skinparam databaseBackgroundColor #D5F5E3
+skinparam databaseBorderColor #1E8449
+skinparam arrowColor #2C3E50
+
+package "Interface de Usuário" {
+    [UI Web]    <<component>>
+    [UI Mobile] <<component>>
+
+    interface "InterfaceUsuario" as IUI
+    [UI Web] o-- IUI : fornece
+
+    [UI Mobile] --> [UI Web] : Compartilha Interface
+}
+
+package "Módulo de Competições" {
+    [ControladorCompeticoes] <<component>>
+
+    interface "InterfaceCompeticoes" as IComp
+    [ControladorCompeticoes] o-- IComp : fornece
+
+    interface "InterfaceLocal" as ILocReq
+    [ControladorCompeticoes] ..> ILocReq : requer
+}
+
+package "Módulo de Inscrições" {
+    [ControladorInscricoes] <<component>>
+    [ServicoValidacao]      <<component>>
+
+    interface "InterfaceInscricoes" as IInsc
+    [ControladorInscricoes] o-- IInsc : fornece
+
+    interface "InterfaceCompeticoes" as ICompReq
+    [ControladorInscricoes] ..> ICompReq : requer
+
+    [ServicoValidacao] --> [ControladorInscricoes] : Valida Representação por País
+}
+
+package "Módulo de Alocação" {
+    [ControladorAlocacao] <<component>>
+    [ServicoConflito]     <<component>>
+
+    interface "InterfaceLocal" as ILoc
+    [ControladorAlocacao] o-- ILoc : fornece
+
+    [ServicoConflito] --> [ControladorAlocacao] : Verifica Conflito de Horário
+}
+
+package "Módulo de Resultados" {
+    [ControladorResultados] <<component>>
+
+    interface "InterfaceResultados" as IRes
+    [ControladorResultados] o-- IRes : fornece
+
+    interface "InterfaceInscricoes" as IInscReq
+    [ControladorResultados] ..> IInscReq : requer
+}
+
+package "Módulo de Relatórios" {
+    [ControladorRelatorios] <<component>>
+
+    interface "InterfaceRelatorios" as IRel
+    [ControladorRelatorios] o-- IRel : fornece
+
+    interface "InterfaceResultados" as IResReq
+    [ControladorRelatorios] ..> IResReq : requer
+}
+
+package "Infraestrutura" {
+    [RepositorioDados]  <<component>>
+    database "Banco de Dados SGO" as BD
+
+    [RepositorioDados] --> BD : Persistir Dados
+}
+
+' Interface de Usuário → Módulos
+[UI Web]    --> [ControladorCompeticoes]  : Gerencia Competições
+[UI Web]    --> [ControladorInscricoes]   : Gerencia Inscrições
+[UI Web]    --> [ControladorAlocacao]     : Gerencia Locais
+[UI Web]    --> [ControladorResultados]   : Registra Resultados
+[UI Web]    --> [ControladorRelatorios]   : Consulta Relatórios
+[UI Mobile] --> [ControladorInscricoes]   : Inscreve Atleta
+[UI Mobile] --> [ControladorRelatorios]   : Consulta Medalhas
+
+' Módulos → Infraestrutura
+[ControladorCompeticoes]  --> [RepositorioDados] : CRUD
+[ControladorInscricoes]   --> [RepositorioDados] : CRUD
+[ControladorAlocacao]     --> [RepositorioDados] : CRUD
+[ControladorResultados]   --> [RepositorioDados] : CRUD
+[ControladorRelatorios]   --> [RepositorioDados] : Leitura
+
+@enduml

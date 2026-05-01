@@ -50,6 +50,12 @@ O **SGO** é um sistema de gestão desenvolvido para coordenar os diferentes asp
 
 ---
 
+### Diagrama de Componentes
+
+<img width="800px" src="https://github.com/RenatoDNS/projeto-de-software-sgo/blob/main/imagens/diagrama-de-componentes.png"/>
+
+---
+
 ## Estrutura do Repositório
 
 ```
@@ -57,10 +63,12 @@ O **SGO** é um sistema de gestão desenvolvido para coordenar os diferentes asp
 ├── 📄 README.md
 ├── 📁 imagens/
 │   ├── diagrama-de-caso-de-uso.png
-│   └── diagrama-de-classes-e-pacotes.png
+│   ├── diagrama-de-classes-e-pacotes.png
+│   └── diagrama-de-componentes.png
 └── 📁 codigos/
     ├── diagrama-de-caso-de-uso.puml
-    └── diagrama-de-classes-e-pacotes.puml
+    ├── diagrama-de-classes-e-pacotes.puml
+    └── diagrama-de-componentes.puml
 ```
 
 ---
